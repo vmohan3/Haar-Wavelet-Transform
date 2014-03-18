@@ -1,0 +1,8 @@
+CREATE OR REPLACE FUNCTION compress(value double precision[]) RETURNS char[] AS $$
+
+import numpy
+
+npArray = numpy.array(value)
+return npArray.tostring()
+
+$$ LANGUAGE plpythonu STRICT VOLATILE;

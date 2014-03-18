@@ -1,0 +1,9 @@
+CREATE OR REPLACE FUNCTION dotproduct(vec1 double precision[], vec2 double precision[]) RETURNS double precision AS $$
+
+retVal = 0
+
+for i in range(0,min(len(vec1),len(vec2))):
+    retVal += vec1[i] * vec2[i];
+return retVal;
+
+$$ LANGUAGE plpythonu STRICT VOLATILE;

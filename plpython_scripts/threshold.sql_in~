@@ -1,0 +1,6 @@
+CREATE OR REPLACE FUNCTION threshold(value real, thresh real) RETURNS real AS $$
+if (value < thresh):
+    return 0
+else:
+    return value
+$$ LANGUAGE plpythonu STRICT VOLATILE;

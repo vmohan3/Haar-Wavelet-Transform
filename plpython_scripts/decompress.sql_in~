@@ -1,0 +1,9 @@
+CREATE OR REPLACE FUNCTION compress(value double precision[]) RETURNS bytea AS $$
+
+import numpy
+import zlib
+
+npArray = numpy.array(value)
+return zlib.compress(npArray.tostring())
+
+$$ LANGUAGE plpythonu STRICT VOLATILE;

@@ -1,0 +1,3 @@
+sudo mkdir /dev/sdi
+sudo mount /dev/sdl /dev/sdi
+sudo /etc/init.d/postgresql-9.2 start

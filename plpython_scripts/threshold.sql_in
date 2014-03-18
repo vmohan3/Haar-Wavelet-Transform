@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION threshold(value double precision[], thresh double precision) RETURNS double precision[] AS $$
+
+for i in range(0,len(value)):
+    if (value[i] < thresh):
+        value[i] = 0
+return value;
+
+#if (value < thresh):
+#    return 0
+#else:
+#    return value
+
+$$ LANGUAGE plpythonu STRICT VOLATILE;

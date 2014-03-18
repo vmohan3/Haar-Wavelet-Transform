@@ -1,0 +1,48 @@
+CREATE OR REPLACE FUNCTION haar_transform(in_table regclass, out_table regclass) AS $$
+DECLARE
+	i integer;
+	j integer;
+	width integer;
+	height integer;
+	size integer;
+	haar_val_1;
+	haar_val_2;
+BEGIN
+	
+
+	width := SELECT max(col) FROM in_table;
+	height := SELECT max(row) FROM in_table;
+	IF width<height THEN
+		size := width;
+	ELSE 
+		size := height;
+	END IF;
+
+	FOR j in 0..size LOOP
+		FOR i in 0..size LOOP
+			haar_val_1 := compute_transform(SELECT value FROM in_table WHERE row=j AND col=2*i;, SELECT value FROM in_table WHERE row=j AND col=2*j+1, FALSE)
+			haar_val_2 := compute_transform(SELECT value FROM in_table WHERE row=j AND col=2*i;, SELECT value FROM in_table WHERE row=j AND col=2*j+1, TRUE)
+			INSERT INTO out_table VALUES (j, i, haar_val_1)
+			INSERT INTO out_table VALUES (j+size/2, i, haar_val_2)
+		END LOOP;
+	END LOOP;
+END;
+$$ LANGUAGE plpgsql; 
+
+
+CREATE OR REPLACE FUNCTION conpute_transform(a integer, b integer, second_half boolean)
+RETURNS integer AS $$
+DECLARE
+	result
+BEGIN
+	IF second_half THEN
+		result := (0-(\|2/2)*a) + (\|2/2)*b;
+	ELSE
+		result := (\|2/2)*a + (\|2/2)*b;
+	END IF;
+
+	return result
+END;
+$$ LANGUAGE plpgsql;
+
+
